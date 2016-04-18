@@ -13,7 +13,7 @@ hs_err_pid*
 
 
 #The CSVs
-src/main/java/resources/quoteCSV
+utilities/src/main/java/resources/data/quoteCSV
 
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion
