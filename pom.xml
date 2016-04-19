@@ -11,6 +11,7 @@
 
     <modules>
         <module>data-fetcher</module>
+        <module>data-fetcher</module>
     </modules>
 
     <dependencyManagement>

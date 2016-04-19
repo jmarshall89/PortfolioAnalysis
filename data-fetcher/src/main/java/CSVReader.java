@@ -19,6 +19,13 @@ public class CSVReader {
         getAdjClose("FB");
     }
 
+    /**
+     * A method for parsing a CSV. Requires a CSV to have specific date formatting in column 0
+     * and adjusted close in column 6.
+     * NOTE: does not adjust time period. Assumes CSV is monthly.
+     * @param ticker Ticker name of the stock, as well as the name of the csv
+     * @return a Treemap of adjusted close prices
+     */
     public static Map<LocalDate, Double> getAdjClose(String ticker) {
         Map<LocalDate, Double> adjClose = new TreeMap<>();
         try {
