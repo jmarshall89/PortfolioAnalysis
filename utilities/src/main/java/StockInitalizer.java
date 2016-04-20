@@ -29,16 +29,16 @@ public final class StockInitalizer {
             populatePrices(stock);
         }
         Map<LocalDate, Double> returns = new TreeMap<>();
-        //Dates are in descending order
-        Double nextDate = null;
+        //Dates are in asending order
+        Double prevDate = null;
         Double thisDate;
         for (LocalDate date : stock.getPrices().keySet()) {
-            if (nextDate == null) {
-                nextDate = stock.getPrices().get(date);
+            if (prevDate == null) {
+                prevDate = stock.getPrices().get(date);
                 continue;
             }
             thisDate = stock.getPrices().get(date);
-            Double percent = Math.log(nextDate / thisDate);
+            Double percent = Math.log(thisDate / prevDate);
             returns.put(date, percent);
         }
         stock.setReturns(returns);

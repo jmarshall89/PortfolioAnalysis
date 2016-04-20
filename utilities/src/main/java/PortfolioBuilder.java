@@ -17,15 +17,20 @@ public final class PortfolioBuilder {
             //todo make exception
             System.out.println("The following path is not a directory:");
             System.out.println(path);
+            return null;
         }
         for (File stockCSV : folder.listFiles()) {
-            String ticker = stockCSV.getName();
+            if (stockCSV.getName().substring(0,1).compareTo(".") == 0) continue; // don't want hidden files
+            String ticker = stockCSV.getName().split("[.csv]")[0]; //want to remove the .csv from name for ticker
             Stock stock = new Stock(ticker);
             stock.setPrices(CSVReader.getAdjClose(ticker));
             portfolio.addStock(stock);
+            StockInitalizer.populateReturns(stock);
         }
         return portfolio;
     }
+    //todo next build the market, and calc a beta
+
 
 
 

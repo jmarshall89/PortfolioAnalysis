@@ -60,7 +60,8 @@ public class CSVReader {
 
     public static String getCSVsPath() {
         File here = new File("");
-        return here.getAbsolutePath()+"/data-fetcher/src/main/resources/data/quoteCSV/";
+        //todo find some way to make this better
+        return here.getAbsolutePath()+"/utilities/src/main/resources/data/quoteCSV/";
     }
 
 }
