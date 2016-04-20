@@ -26,12 +26,11 @@ public class CSVReader {
      * @param ticker Ticker name of the stock, as well as the name of the csv
      * @return a Treemap of adjusted close prices
      */
+    //todo we are iterating through the folder in another class, we could do that here
     public static Map<LocalDate, Double> getAdjClose(String ticker) {
         Map<LocalDate, Double> adjClose = new TreeMap<>();
         try {
-            File here = new File("");
-            String path = here.getAbsolutePath()+"/data-fetcher/src/main/resources/data/quoteCSV/";
-            path = path + ticker + ".csv";
+            String path = getCSVsPath(ticker);
             CSVParser parser = getData(path);
             //CSV has dates in first column, and adj close in col 6
             for (CSVRecord record : parser) {
@@ -54,5 +53,14 @@ public class CSVReader {
         return parser;
     }
 
+    public static String getCSVsPath(String ticker) {
+        String path = getCSVsPath();
+        return path + ticker + ".csv";
+    }
+
+    public static String getCSVsPath() {
+        File here = new File("");
+        return here.getAbsolutePath()+"/data-fetcher/src/main/resources/data/quoteCSV/";
+    }
 
 }
