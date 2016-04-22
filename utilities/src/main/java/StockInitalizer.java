@@ -20,7 +20,7 @@ public final class StockInitalizer {
      */
     public static void populatePrices(Stock stock) {
         Map<LocalDate, Double> prices;
-        prices = CSVReader.getAdjClose(stock.getTicker());
+        prices = CSVReader.getAdjClose(stock.getTicker(), Constants.STOCK_DIRECTORY);
         stock.setPrices(prices);
     }
 

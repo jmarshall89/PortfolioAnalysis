@@ -9,10 +9,15 @@ import java.util.Optional;
 public class Portfolio {
 
     List<Stock> stocks = new ArrayList<>();
+    Stock market;
     Optional<Double> beta = Optional.empty();
 
     public void addStock(Stock stock) {
-        this.stocks.add(stock);
+        if (stock instanceof Market) {
+            this.market = stock;
+        } else {
+            this.stocks.add(stock);
+        }
     }
 
 
@@ -20,13 +25,15 @@ public class Portfolio {
 
 
 
-
+//     todo portfolo calcs
 //    //getters and setters
 //    public Double getorCalcBeta() {
 //        if (beta.isPresent()) {
 //            return beta;
 //        }
-//        else //todo calc beta
+//        else {
+//
+//        }
 //    }
 
     public void setBeta(Double beta) {

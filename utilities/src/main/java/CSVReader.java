@@ -13,12 +13,6 @@ import java.util.TreeMap;
  * Created by jmarshall on 4/17/16.
  */
 public class CSVReader {
-
-    //for testing
-    public static void main(String[] args) {
-        getAdjClose("FB");
-    }
-
     /**
      * A method for parsing a CSV. Requires a CSV to have specific date formatting in column 0
      * and adjusted close in column 6.
@@ -27,10 +21,10 @@ public class CSVReader {
      * @return a Treemap of adjusted close prices
      */
     //todo we are iterating through the folder in another class, we could do that here
-    public static Map<LocalDate, Double> getAdjClose(String ticker) {
+    public static Map<LocalDate, Double> getAdjClose(String ticker, String pathSuffix) {
         Map<LocalDate, Double> adjClose = new TreeMap<>();
         try {
-            String path = getCSVsPath(ticker);
+            String path = getCSVsPath(ticker, pathSuffix);
             CSVParser parser = getData(path);
             //CSV has dates in first column, and adj close in col 6
             for (CSVRecord record : parser) {
@@ -53,15 +47,15 @@ public class CSVReader {
         return parser;
     }
 
-    public static String getCSVsPath(String ticker) {
-        String path = getCSVsPath();
+    public static String getCSVsPath(String ticker, String pathSuffix) {
+        String path = getCSVsPath(pathSuffix);
         return path + ticker + ".csv";
     }
 
-    public static String getCSVsPath() {
+    public static String getCSVsPath(String pathSuffix) {
         File here = new File("");
-        //todo find some way to make this better
-        return here.getAbsolutePath()+"/utilities/src/main/resources/data/quoteCSV/";
+        //todo find some way to make this better (ex add csvs to classpath to locate quicker)
+        return here.getAbsolutePath() + pathSuffix;
     }
 
 }

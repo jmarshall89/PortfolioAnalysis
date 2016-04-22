@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -8,6 +9,7 @@ public class Stock {
     private String ticker;
     private Map<LocalDate, Double> prices;
     private Map<LocalDate, Double> returns;
+    private Map<Market, Double> beta = new HashMap<>(); // made a map, as there could be multiple betas for different market proxies
 
     public Stock(String ticker) {
         this.ticker = ticker;
@@ -32,4 +34,6 @@ public class Stock {
     public String getTicker() {
         return ticker;
     }
+
+
 }

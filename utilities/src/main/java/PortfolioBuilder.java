@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.function.Function;
 
 /**
  * Created by jmarshall on 4/19/16.
@@ -11,8 +12,9 @@ public final class PortfolioBuilder {
 
     public static Portfolio buildPortfolioFromFiles() {
         Portfolio portfolio = new Portfolio();
-        String path = CSVReader.getCSVsPath();
+        String path = CSVReader.getCSVsPath(Constants.STOCK_DIRECTORY);
         File folder = new File(path);
+        Function<String, Stock> makeStock = (a) -> new Stock(a);
         if (!folder.isDirectory()) {
             //todo make exception
             System.out.println("The following path is not a directory:");
@@ -20,16 +22,25 @@ public final class PortfolioBuilder {
             return null;
         }
         for (File stockCSV : folder.listFiles()) {
-            if (stockCSV.getName().substring(0,1).compareTo(".") == 0) continue; // don't want hidden files
-            String ticker = stockCSV.getName().split("[.csv]")[0]; //want to remove the .csv from name for ticker
-            Stock stock = new Stock(ticker);
-            stock.setPrices(CSVReader.getAdjClose(ticker));
-            portfolio.addStock(stock);
-            StockInitalizer.populateReturns(stock);
+            populateStock(portfolio, stockCSV, Constants.STOCK_DIRECTORY, makeStock);
         }
+        //Now add market
+        String marketPath = CSVReader.getCSVsPath("SP500", Constants.SP500_DIRECTORY);
+        File marketCSV = new File(marketPath);
+        Function<String, Stock> makeMarket = (a) -> new Market(a);
+        populateStock(portfolio, marketCSV, Constants.SP500_DIRECTORY, makeMarket);
+
         return portfolio;
     }
-    //todo next build the market, and calc a beta
+
+    private static void populateStock(Portfolio portfolio, File stockCSV, String directory, Function<String, Stock> build) {
+        if (stockCSV.getName().substring(0,1).compareTo(".") == 0) return; // don't want hidden files
+        String ticker = stockCSV.getName().split("[.csv]")[0]; //want to remove the .csv from name for ticker
+        Stock stock = build.apply(ticker);
+        stock.setPrices(CSVReader.getAdjClose(ticker, directory));
+        portfolio.addStock(stock);
+        StockInitalizer.populateReturns(stock);
+    }
 
 
 
