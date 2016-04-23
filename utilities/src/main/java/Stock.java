@@ -1,6 +1,6 @@
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by jmarshall on 4/17/16.
@@ -9,7 +9,7 @@ public class Stock {
     private String ticker;
     private Map<LocalDate, Double> prices;
     private Map<LocalDate, Double> returns;
-    private Map<Market, Double> beta = new HashMap<>(); // made a map, as there could be multiple betas for different market proxies
+    private Map<Market, Double> beta = new TreeMap<>(); // made a map, as there could be multiple betas for different market proxies
 
     public Stock(String ticker) {
         this.ticker = ticker;
@@ -35,5 +35,12 @@ public class Stock {
         return ticker;
     }
 
+    public void addBeta(Market market, Double beta) {
+        this.beta.put(market, beta);
+    }
+
+    public Double getbeta(Market market) {
+        return beta.get(market);
+    }
 
 }

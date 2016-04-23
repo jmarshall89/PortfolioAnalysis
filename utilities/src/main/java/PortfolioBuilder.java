@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.function.Function;
+import org.apache.commons.math3.stat.regression;
 
 /**
  * Created by jmarshall on 4/19/16.
@@ -42,7 +43,9 @@ public final class PortfolioBuilder {
         StockInitalizer.populateReturns(stock);
     }
 
-
+    public static Double calculateBeta(Stock stock, Stock market) {
+        SimpleRegression
+    }
 
 
 
