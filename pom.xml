@@ -10,8 +10,6 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>data-fetcher</module>
-        <module>data-fetcher</module>
         <module>utilities</module>
     </modules>
 

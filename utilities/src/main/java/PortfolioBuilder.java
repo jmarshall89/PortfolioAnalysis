@@ -1,6 +1,8 @@
+import org.apache.commons.math3.stat.regression.SimpleRegression;
+
 import java.io.File;
+import java.time.LocalDate;
 import java.util.function.Function;
-import org.apache.commons.math3.stat.regression;
 
 /**
  * Created by jmarshall on 4/19/16.
@@ -31,6 +33,9 @@ public final class PortfolioBuilder {
         Function<String, Stock> makeMarket = (a) -> new Market(a);
         populateStock(portfolio, marketCSV, Constants.SP500_DIRECTORY, makeMarket);
 
+        //for testing BEta
+        calculateBeta(portfolio.getStocks().get(0), portfolio.market);
+
         return portfolio;
     }
 
@@ -43,8 +48,15 @@ public final class PortfolioBuilder {
         StockInitalizer.populateReturns(stock);
     }
 
+
+
     public static Double calculateBeta(Stock stock, Stock market) {
-        SimpleRegression
+        SimpleRegression regression = new SimpleRegression();
+        for (LocalDate date : stock.getReturns().keySet()) {
+            //todo optimize...this is currently NlogN
+            regression.addData(market.getReturns().get(date), stock.getReturns().get(date));
+        }
+        return regression.getSlope();
     }
 
 
