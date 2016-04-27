@@ -1,3 +1,5 @@
+package com.portfolio.builder;
+
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 import java.io.File;
@@ -33,9 +35,6 @@ public final class PortfolioBuilder {
         Function<String, Stock> makeMarket = (a) -> new Market(a);
         populateStock(portfolio, marketCSV, Constants.SP500_DIRECTORY, makeMarket);
 
-        //for testing BEta
-        calculateBeta(portfolio.getStocks().get(0), portfolio.market);
-
         return portfolio;
     }
 
@@ -48,13 +47,11 @@ public final class PortfolioBuilder {
         StockInitalizer.populateReturns(stock);
     }
 
-
-
     public static Double calculateBeta(Stock stock, Stock market) {
         SimpleRegression regression = new SimpleRegression();
-        for (LocalDate date : stock.getReturns().keySet()) {
+        for (LocalDate date : stock.getReturns().getValues().keySet()) {
             //todo optimize...this is currently NlogN
-            regression.addData(market.getReturns().get(date), stock.getReturns().get(date));
+            regression.addData(market.getReturns().getValue(date), stock.getReturns().getValue(date));
         }
         return regression.getSlope();
     }

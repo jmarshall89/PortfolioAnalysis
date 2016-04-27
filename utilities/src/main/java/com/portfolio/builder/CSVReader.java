@@ -1,3 +1,6 @@
+package com.portfolio.builder;
+
+import com.portfolio.builder.tseries.BaseTSeries;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -6,8 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by jmarshall on 4/17/16.
@@ -21,14 +22,14 @@ public class CSVReader {
      * @return a Treemap of adjusted close prices
      */
     //todo we are iterating through the folder in another class, we could do that here
-    public static Map<LocalDate, Double> getAdjClose(String ticker, String pathSuffix) {
-        Map<LocalDate, Double> adjClose = new TreeMap<>();
+    public static BaseTSeries getAdjClose(String ticker, String pathSuffix) {
+        BaseTSeries adjClose = new BaseTSeries();
         try {
             String path = getCSVsPath(ticker, pathSuffix);
             CSVParser parser = getData(path);
             //CSV has dates in first column, and adj close in col 6
             for (CSVRecord record : parser) {
-                adjClose.put(LocalDate.parse(record.get(0)), Double.parseDouble(record.get(6)));
+                adjClose.add(LocalDate.parse(record.get(0)), Double.parseDouble(record.get(6)));
             }
             //todo make this exception better
         } catch (Exception e) {
