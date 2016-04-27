@@ -60,7 +60,7 @@ public class BaseTSeries implements AbstractTSeries{
         if (size == 0) return 0d;
         double mean = MathHelper.mean(returns);
         double exp = mean * size;
-        return Math.exp(exp);
+        return Math.exp(exp) - 1;
     }
 
 }

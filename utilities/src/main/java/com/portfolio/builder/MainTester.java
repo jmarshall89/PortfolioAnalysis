@@ -7,6 +7,7 @@ public class MainTester {
     public static void main(String[] args) {
 
         Portfolio portfolio = PortfolioBuilder.buildPortfolioFromFiles();
+        portfolio.calcTotalReturn();
     }
 
 
