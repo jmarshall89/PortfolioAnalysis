@@ -33,16 +33,17 @@ public class Portfolio {
         }
     }
 
-    //todo: first make returns more solid
-//    public Double calcTotalReturn() {
-//        Double val = 0d;
-//        for (Map.Entry<String, com.portfolio.builder.Stock> entry : stocks.entrySet()) {
-//            String ticker = entry.getKey();
-//            com.portfolio.builder.Stock stock = entry.getValue();
-//            double weight = stockWeights.get(ticker);
-//            val = val + (stock.get)
-//        }
-//    }
+    public Double calcTotalReturn() {
+        Double val = 0d;
+        for (Map.Entry<String, Stock> entry : stocks.entrySet()) {
+            String ticker = entry.getKey();
+            Stock stock = entry.getValue();
+            double weight = stockWeights.get(ticker);
+            double totReturn = stock.getTotalReturn(stock.getStart(), stock.getEnd());
+            val = val + (weight * totReturn);
+        }
+        return val;
+    }
 
 
 
@@ -56,7 +57,6 @@ public class Portfolio {
 //
 //        }
 //    }
-
 
     public Stock getMarket() {
         return market;

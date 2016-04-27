@@ -40,6 +40,10 @@ public final class StockInitalizer {
                 prevDate = stock.getPrices().getValue(date);
                 continue;
             }
+            if (stock.getStart() == null) {
+                stock.setStart(date);
+            }
+            stock.setEnd(date);
             thisDate = stock.getPrices().getValue(date);
             Double percent = Math.log(thisDate / prevDate);
             returns.add(date, percent);

@@ -34,7 +34,6 @@ public final class PortfolioBuilder {
         File marketCSV = new File(marketPath);
         Function<String, Stock> makeMarket = (a) -> new Market(a);
         populateStock(portfolio, marketCSV, Constants.SP500_DIRECTORY, makeMarket);
-
         return portfolio;
     }
 

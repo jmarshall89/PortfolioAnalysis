@@ -14,6 +14,8 @@ public class Stock {
     private AbstractTSeries prices;
     private AbstractTSeries returns;
     private Map<Stock, Double> beta = new TreeMap<>(); // made a map, as there could be multiple betas for different market proxies
+    private LocalDate start = null;
+    private LocalDate end = null;
 
     public Stock(String ticker) {
         this.ticker = ticker;
@@ -51,4 +53,19 @@ public class Stock {
         return this.returns.totalReturn(start, end);
     }
 
+    public LocalDate getStart() {
+        return start;
+    }
+
+    public void setStart(LocalDate start) {
+        this.start = start;
+    }
+
+    public LocalDate getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDate end) {
+        this.end = end;
+    }
 }
