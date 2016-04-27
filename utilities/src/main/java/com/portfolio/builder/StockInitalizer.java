@@ -1,5 +1,6 @@
 package com.portfolio.builder;
 
+import com.portfolio.builder.tseries.AbstractTSeries;
 import com.portfolio.builder.tseries.BaseTSeries;
 
 import java.time.LocalDate;
@@ -21,7 +22,7 @@ public final class StockInitalizer {
      * @param stock
      */
     public static void populatePrices(Stock stock) {
-        BaseTSeries prices;
+        AbstractTSeries prices;
         prices = CSVReader.getAdjClose(stock.getTicker(), Constants.STOCK_DIRECTORY);
         stock.setPrices(prices);
     }

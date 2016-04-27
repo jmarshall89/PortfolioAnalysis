@@ -12,33 +12,39 @@ import java.util.stream.Collectors;
 /**
  * Created by jmarshall on 4/26/16.
  */
-public class BaseTSeries {
-    private TreeMap<LocalDate, Double> values;
+public class BaseTSeries implements AbstractTSeries{
+    private TreeMap<LocalDate, Double> values = new TreeMap<>();
 
     public void setValues(TreeMap<LocalDate, Double> values) {
         this.values = values;
     }
 
+    @Override
     public TreeMap<LocalDate, Double> getValues() {
         return values;
     }
 
+    @Override
     public Double getValue(LocalDate date) {
         return values.floorEntry(date).getValue();
     }
 
+    @Override
     public void add(LocalDate date, Double val) {
         values.put(date, val);
     }
 
+    @Override
     public Set<LocalDate> dates() {
         return values.keySet();
     }
 
+    @Override
     public boolean isEmpty() {
         return values.isEmpty();
     }
 
+    @Override
     public List<Double> getSubset(LocalDate start, LocalDate end) {
         return values.entrySet().stream()
                     .filter(x -> !x.getKey().isBefore(start))
@@ -47,6 +53,7 @@ public class BaseTSeries {
                     .collect(Collectors.toList());
     }
 
+    @Override
     public Double totalReturn(LocalDate start, LocalDate end) {
         List<Double> returns = getSubset(start, end);
         int size = returns.size();

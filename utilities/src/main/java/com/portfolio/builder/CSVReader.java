@@ -1,5 +1,6 @@
 package com.portfolio.builder;
 
+import com.portfolio.builder.tseries.AbstractTSeries;
 import com.portfolio.builder.tseries.BaseTSeries;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -22,8 +23,8 @@ public class CSVReader {
      * @return a Treemap of adjusted close prices
      */
     //todo we are iterating through the folder in another class, we could do that here
-    public static BaseTSeries getAdjClose(String ticker, String pathSuffix) {
-        BaseTSeries adjClose = new BaseTSeries();
+    public static AbstractTSeries getAdjClose(String ticker, String pathSuffix) {
+        AbstractTSeries adjClose = new BaseTSeries();
         try {
             String path = getCSVsPath(ticker, pathSuffix);
             CSVParser parser = getData(path);

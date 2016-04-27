@@ -1,6 +1,6 @@
 package com.portfolio.builder;
 
-import com.portfolio.builder.tseries.BaseTSeries;
+import com.portfolio.builder.tseries.AbstractTSeries;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -11,27 +11,27 @@ import java.util.TreeMap;
  */
 public class Stock {
     private String ticker;
-    private BaseTSeries prices;
-    private BaseTSeries returns;
+    private AbstractTSeries prices;
+    private AbstractTSeries returns;
     private Map<Stock, Double> beta = new TreeMap<>(); // made a map, as there could be multiple betas for different market proxies
 
     public Stock(String ticker) {
         this.ticker = ticker;
     }
 
-    public BaseTSeries getPrices() {
+    public AbstractTSeries getPrices() {
         return prices;
     }
 
-    public void setPrices(BaseTSeries prices) {
+    public void setPrices(AbstractTSeries prices) {
         this.prices = prices;
     }
 
-    public BaseTSeries getReturns() {
+    public AbstractTSeries getReturns() {
         return returns;
     }
 
-    public void setReturns(BaseTSeries returns) {
+    public void setReturns(AbstractTSeries returns) {
         this.returns = returns;
     }
 
