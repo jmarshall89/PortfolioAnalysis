@@ -3,6 +3,7 @@ package com.portfolio.builder;
 import com.portfolio.builder.tseries.AbstractTSeries;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -67,5 +68,9 @@ public class Stock {
 
     public void setEnd(LocalDate end) {
         this.end = end;
+    }
+
+    public static Comparator<Stock> END_COMP() {
+        return (o1, o2) -> o1.getEnd().isBefore(o2.getEnd()) ? -1 : 1;
     }
 }

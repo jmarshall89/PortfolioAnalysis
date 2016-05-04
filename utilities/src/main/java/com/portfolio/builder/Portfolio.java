@@ -1,5 +1,6 @@
 package com.portfolio.builder;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +26,10 @@ public class Portfolio {
         rebalance();
     }
 
+    public LocalDate getPortfolioEnd() {
+        return stocks.values().stream().max(Stock.END_COMP()).get().getEnd();
+    }
+
     private void rebalance() {
         double count = stockWeights.size();
         double equality = 1d / count;
@@ -33,19 +38,22 @@ public class Portfolio {
         }
     }
 
-    public Double calcTotalReturn() {
+    public Double calcReturn(LocalDate start, LocalDate end) {
         Double val = 0d;
         for (Map.Entry<String, Stock> entry : stocks.entrySet()) {
             String ticker = entry.getKey();
             Stock stock = entry.getValue();
             double weight = stockWeights.get(ticker);
-            double totReturn = stock.getTotalReturn(stock.getStart(), stock.getEnd());
+            double totReturn = stock.getTotalReturn(start, end);
             val = val + (weight * totReturn);
         }
         return val;
     }
 
+    public Double calcLastYearReturn() {
+        return calcReturn(getPortfolioEnd().minusYears(1), getPortfolioEnd());
 
+    }
 
 
 
