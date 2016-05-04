@@ -76,11 +76,11 @@ public class Portfolio {
         CorrelationResult result = new CorrelationResult();
         buildReturnMatrixLastYear(result);
         result.calcCovariance();
-        result.getCorr();
+//        result.getCorr()
     }
 
     public void buildReturnMatrix(LocalDate start, LocalDate end, CorrelationResult result) {
-        Double[][] returns = new Double[][];
+        Double[][] returns = new Double[stocks.size()][];
         int i = 0;
         for (Map.Entry<String, Stock> entry : stocks.entrySet()) {
             result.addStock(entry.getKey(), i);
