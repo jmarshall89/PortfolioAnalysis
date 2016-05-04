@@ -1,7 +1,10 @@
 package com.portfolio.builder;
 
+import com.portfolio.builder.holders.CorrelationResult;
+
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -43,6 +46,9 @@ public class Portfolio {
     }
 
     public Double calcReturn(LocalDate start, LocalDate end) {
+        if (getPortfolioEarliestDate().isBefore(start)) {
+            return null; //todo filter out stocks that dont' fit this!,
+        }
         Double val = 0d;
         for (Map.Entry<String, Stock> entry : stocks.entrySet()) {
             String ticker = entry.getKey();
@@ -58,6 +64,37 @@ public class Portfolio {
         return calcReturn(getPortfolioEnd().minusYears(1), getPortfolioEnd());
     }
 
+//    public Double calcRisk(LocalDate start, LocalDate end) {
+//        Double
+//    }
+
+//    public double[] calcCorrelationMatrix() {
+//
+//    }
+
+    public void setupTest() {
+        CorrelationResult result = new CorrelationResult();
+        buildReturnMatrixLastYear(result);
+        result.calcCovariance();
+        result.getCorr();
+    }
+
+    public void buildReturnMatrix(LocalDate start, LocalDate end, CorrelationResult result) {
+        Double[][] returns = new Double[][];
+        int i = 0;
+        for (Map.Entry<String, Stock> entry : stocks.entrySet()) {
+            result.addStock(entry.getKey(), i);
+            Stock stock = entry.getValue();
+            List<Double> vals = stock.getReturns().getSubset(start, end);
+            Double[] valsArray = vals.toArray(new Double[vals.size()]);
+            returns[i++] = valsArray;
+        }
+        result.setReturnMatrix(returns);
+    }
+
+    public void buildReturnMatrixLastYear(CorrelationResult result) {
+        buildReturnMatrix(getPortfolioEnd().minusYears(1), getPortfolioEnd(), result);
+    }
 
 
 //    //getters and setters
@@ -76,4 +113,5 @@ public class Portfolio {
     public void setBeta(Double beta) {
         this.beta = Optional.of(beta);
     }
+
 }

@@ -14,10 +14,24 @@ public final class MathHelper {
         if (list.size() == 1) {
             return list.get(0);
         }
-        double sum = 0;
-        for (double val : list) {
-            sum += val;
+        return list.stream()
+                .reduce(0d, Double::sum)
+                / list.size();
+    }
+
+    public static Double stdDeviation(List<Double> list) {
+        if (list.size() == 0) {
+            return 0d;
         }
-        return sum / list.size();
+        if (list.size() == 1) {
+            return 0d;
+        }
+        Double mean = mean(list);
+        Double sumSquaredDievations =
+                list.stream()
+                .map(a -> Math.pow((a - mean), 2))
+                .reduce(Double::sum)
+                .get();
+        return Math.pow((sumSquaredDievations / list.size()), (1/2));
     }
 }
