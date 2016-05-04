@@ -71,6 +71,10 @@ public class Stock {
     }
 
     public static Comparator<Stock> END_COMP() {
-        return (o1, o2) -> o1.getEnd().isBefore(o2.getEnd()) ? -1 : 1;
+        return (a, b) -> a.getEnd().isBefore(b.getEnd()) ? -1 : 1;
+    }
+
+    public static Comparator<Stock> EARLIEST_START() {
+        return (a, b) -> a.getStart().isBefore(b.getStart()) ? -1 : 1;
     }
 }

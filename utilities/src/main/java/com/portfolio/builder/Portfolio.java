@@ -30,6 +30,10 @@ public class Portfolio {
         return stocks.values().stream().max(Stock.END_COMP()).get().getEnd();
     }
 
+    public LocalDate getPortfolioEarliestDate() {
+        return stocks.values().stream().max(Stock.EARLIEST_START()).get().getStart();
+    }
+
     private void rebalance() {
         double count = stockWeights.size();
         double equality = 1d / count;
@@ -52,7 +56,6 @@ public class Portfolio {
 
     public Double calcLastYearReturn() {
         return calcReturn(getPortfolioEnd().minusYears(1), getPortfolioEnd());
-
     }
 
 
