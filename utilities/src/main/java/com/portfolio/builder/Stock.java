@@ -77,4 +77,5 @@ public class Stock {
     public static Comparator<Stock> EARLIEST_START() {
         return (a, b) -> a.getStart().isBefore(b.getStart()) ? -1 : 1;
     }
+
 }

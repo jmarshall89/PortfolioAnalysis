@@ -3,10 +3,7 @@ package com.portfolio.builder;
 import com.portfolio.builder.holders.CorrelationResult;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by jmarshall on 4/19/16.
@@ -35,6 +32,17 @@ public class Portfolio {
 
     public LocalDate getPortfolioEarliestDate() {
         return stocks.values().stream().max(Stock.EARLIEST_START()).get().getStart();
+    }
+
+    public int getMinSize() {
+        int count = 0;
+        for (Stock stock : stocks.values()) {
+            int numReturns = stock.getReturns().getValues().size();
+            if (count == 0 || count > numReturns) {
+                count = numReturns;
+            }
+        }
+        return count;
     }
 
     private void rebalance() {
@@ -80,16 +88,39 @@ public class Portfolio {
     }
 
     public void buildReturnMatrix(LocalDate start, LocalDate end, CorrelationResult result) {
-        Double[][] returns = new Double[stocks.size()][];
+        double[][] returnArray = new double[getMinSize()][];
+        double[][] stocks = new double[this.stocks.size()][];
         int i = 0;
-        for (Map.Entry<String, Stock> entry : stocks.entrySet()) {
-            result.addStock(entry.getKey(), i);
-            Stock stock = entry.getValue();
-            List<Double> vals = stock.getReturns().getSubset(start, end);
-            Double[] valsArray = vals.toArray(new Double[vals.size()]);
-            returns[i++] = valsArray;
+        for(Stock stock : this.stocks.values()) {
+            Collection<Double> returns = stock.getReturns().getValues().values();
+            Iterator<Double> returnsIt = returns.iterator();
+            double[] vals = new double[returns.size()];
+            for (int j = 0; j < returns.size(); j++) {
+                if (!returnsIt.hasNext()) {
+                    continue;
+                }
+                vals[j] = returnsIt.next();
+            }
+            stocks[i++] = vals;
         }
-        result.setReturnMatrix(returns);
+        returnArray = result.buildArray(0, returnArray, stocks);
+        result.setReturnMatrix(returnArray);
+        result.calcCovariance();
+        printArray(returnArray);
+    }
+
+    public void printArray(double[][] array) {
+        for (int i = 0; i < array.length; i++) {
+            double[] inside = array[i];
+            System.out.println("Outer Array " + i);
+            for (int j = 0; j < inside.length; j++) {
+                Double val = inside[j];
+                String message = val == null ?
+                        "      Val is null"
+                        :"       " + val;
+                System.out.println(message);
+            }
+        }
     }
 
     public void buildReturnMatrixLastYear(CorrelationResult result) {

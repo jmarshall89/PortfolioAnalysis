@@ -18,16 +18,8 @@ public class CorrelationResult {
         stockIndexLocation.put(ticker, i);
     }
 
-    public void setReturnMatrix(Double[][] returnMatrix) {
-        double[][] prim = new double[returnMatrix.length][];
-        for (int i= 0; i < returnMatrix.length; i++) {
-            double[] inside = new double[returnMatrix[i].length];
-            for (int j = 0; j < returnMatrix[i].length; j++) {
-                inside[j] = returnMatrix[i][j];
-            }
-            prim[i] = inside;
-        }
-        this.returnMatrix = prim;
+    public void setReturnMatrix(double[][] returnMatrix) {
+        this.returnMatrix = returnMatrix;
     }
 
     public double[][] getReturnMatrix() {
@@ -40,5 +32,26 @@ public class CorrelationResult {
 
     public PearsonsCorrelation getCorr() {
         return corr;
+    }
+
+    public static double[][] buildArray(int index, double[][] mainArray, double[]... arrays) {
+        if (index >= mainArray.length || isEmpty(arrays)) {
+            return mainArray;
+        }
+        double[] row = new double[arrays.length];
+        for (int i = 0; i < arrays.length; i++) {
+            row[i] = arrays[i][index];
+        }
+        mainArray[index] = row;
+        return buildArray(++index, mainArray, arrays);
+    }
+
+    public static boolean isEmpty(double[]... arrays) {
+        for (double[] array : arrays) {
+            if (array.length != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
