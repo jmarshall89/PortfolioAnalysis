@@ -34,24 +34,4 @@ public class CorrelationResult {
         return corr;
     }
 
-    public static double[][] buildArray(int index, double[][] mainArray, double[]... arrays) {
-        if (index >= mainArray.length || isEmpty(arrays)) {
-            return mainArray;
-        }
-        double[] row = new double[arrays.length];
-        for (int i = 0; i < arrays.length; i++) {
-            row[i] = arrays[i][index];
-        }
-        mainArray[index] = row;
-        return buildArray(++index, mainArray, arrays);
-    }
-
-    public static boolean isEmpty(double[]... arrays) {
-        for (double[] array : arrays) {
-            if (array.length != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
 }

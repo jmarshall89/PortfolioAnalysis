@@ -103,7 +103,7 @@ public class Portfolio {
             }
             stocks[i++] = vals;
         }
-        returnArray = result.buildArray(0, returnArray, stocks);
+        returnArray = Arrays.columnsToRows(0, returnArray, stocks);
         result.setReturnMatrix(returnArray);
         result.calcCovariance();
         printArray(returnArray);
