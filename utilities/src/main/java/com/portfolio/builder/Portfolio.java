@@ -15,6 +15,7 @@ public class Portfolio {
     Map<String, Double> stockWeights = new HashMap<>();
     Stock market;
     Optional<Double> beta = Optional.empty();
+    List<String> stockArrayOrder = new ArrayList<>();
 
     public void addStock(Stock stock) {
         if (stock instanceof Market) {
@@ -67,6 +68,7 @@ public class Portfolio {
         buildReturnMatrixLastYear(result);
         result.calcCovariance();
         result.getCorr();
+        double totalRisk = PortfolioCalculator.calcRisk(this, result, getPortfolioEnd().minusYears(1), getPortfolioEnd());
     }
 
     public void buildReturnMatrix(LocalDate start, LocalDate end, CorrelationResult result) {
@@ -86,6 +88,10 @@ public class Portfolio {
 //
 //        }
 //    }
+
+    public void addToStockOrder(String ticker) {
+        this.stockArrayOrder.add(ticker);
+    }
 
     public Stock getMarket() {
         return market;
