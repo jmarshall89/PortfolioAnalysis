@@ -35,14 +35,7 @@ public class Portfolio {
     }
 
     public int getMinSize() {
-        int count = 0;
-        for (Stock stock : stocks.values()) {
-            int numReturns = stock.getReturns().getValues().size();
-            if (count == 0 || count > numReturns) {
-                count = numReturns;
-            }
-        }
-        return count;
+        return PortfolioCalculator.getMinSize(stocks);
     }
 
     private void rebalance() {
@@ -54,18 +47,7 @@ public class Portfolio {
     }
 
     public Double calcReturn(LocalDate start, LocalDate end) {
-        if (getPortfolioEarliestDate().isBefore(start)) {
-            return null; //todo filter out stocks that dont' fit this!,
-        }
-        Double val = 0d;
-        for (Map.Entry<String, Stock> entry : stocks.entrySet()) {
-            String ticker = entry.getKey();
-            Stock stock = entry.getValue();
-            double weight = stockWeights.get(ticker);
-            double totReturn = stock.getTotalReturn(start, end);
-            val = val + (weight * totReturn);
-        }
-        return val;
+        return PortfolioCalculator.calcReturn(this, start, end);
     }
 
     public Double calcLastYearReturn() {
@@ -88,28 +70,7 @@ public class Portfolio {
     }
 
     public void buildReturnMatrix(LocalDate start, LocalDate end, CorrelationResult result) {
-        double[][] returnArray = new double[getMinSize()][];
-        double[][] stocks = new double[this.stocks.size()][];
-        int i = 0;
-        for(Stock stock : this.stocks.values()) {
-            if (!stock.validateDate(start)) {
-                //to prevent a null, remove one spot from the array and copy everything over
-                double[][] temp = new double[stocks.length - 1][]; // prevents a null
-                Arrays.copy(temp, stocks);
-                stocks = temp;
-                continue;
-            }
-            List<Double> returns = stock.getReturns().getSubset(start, end);
-            double[] vals = new double[returns.size()];
-            for (int j = 0; j < returns.size(); j++) {
-                vals[j] = returns.get(j);
-            }
-            stocks[i++] = vals;
-        }
-        returnArray = Arrays.columnsToRows(returnArray, stocks);
-        result.setReturnMatrix(returnArray);
-        result.calcCovariance();
-        Arrays.printArray(returnArray);
+        PortfolioCalculator.buildReturnMatrix(this, start, end, result);
     }
 
     public void buildReturnMatrixLastYear(CorrelationResult result) {
