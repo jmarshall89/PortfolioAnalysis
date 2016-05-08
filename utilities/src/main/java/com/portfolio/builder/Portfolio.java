@@ -84,7 +84,7 @@ public class Portfolio {
         CorrelationResult result = new CorrelationResult();
         buildReturnMatrixLastYear(result);
         result.calcCovariance();
-//        result.getCorr()
+        result.getCorr();
     }
 
     public void buildReturnMatrix(LocalDate start, LocalDate end, CorrelationResult result) {
@@ -92,35 +92,24 @@ public class Portfolio {
         double[][] stocks = new double[this.stocks.size()][];
         int i = 0;
         for(Stock stock : this.stocks.values()) {
-            Collection<Double> returns = stock.getReturns().getValues().values();
-            Iterator<Double> returnsIt = returns.iterator();
+            if (!stock.validateDate(start)) {
+                //to prevent a null, remove one spot from the array and copy everything over
+                double[][] temp = new double[stocks.length - 1][]; // prevents a null
+                Arrays.copy(temp, stocks);
+                stocks = temp;
+                continue;
+            }
+            List<Double> returns = stock.getReturns().getSubset(start, end);
             double[] vals = new double[returns.size()];
             for (int j = 0; j < returns.size(); j++) {
-                if (!returnsIt.hasNext()) {
-                    continue;
-                }
-                vals[j] = returnsIt.next();
+                vals[j] = returns.get(j);
             }
             stocks[i++] = vals;
         }
-        returnArray = Arrays.columnsToRows(0, returnArray, stocks);
+        returnArray = Arrays.columnsToRows(returnArray, stocks);
         result.setReturnMatrix(returnArray);
         result.calcCovariance();
-        printArray(returnArray);
-    }
-
-    public void printArray(double[][] array) {
-        for (int i = 0; i < array.length; i++) {
-            double[] inside = array[i];
-            System.out.println("Outer Array " + i);
-            for (int j = 0; j < inside.length; j++) {
-                Double val = inside[j];
-                String message = val == null ?
-                        "      Val is null"
-                        :"       " + val;
-                System.out.println(message);
-            }
-        }
+        Arrays.printArray(returnArray);
     }
 
     public void buildReturnMatrixLastYear(CorrelationResult result) {

@@ -44,6 +44,9 @@ public class BaseTSeries implements AbstractTSeries{
         return values.isEmpty();
     }
 
+    //todo: this really should provide a subset TSeries. That requires building a Collector, which means we need some
+    //way to aggregate multiple TSeries together. Not incredibly important now, but should consider before
+    //it become a huge project to undo
     @Override
     public List<Double> getSubset(LocalDate start, LocalDate end) {
         return values.entrySet().stream()

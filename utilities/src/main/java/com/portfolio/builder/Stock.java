@@ -70,6 +70,15 @@ public class Stock {
         this.end = end;
     }
 
+    /**
+     * Method for determing if a given date is within the range of available returns.
+     * @param date date to test
+     * @return true if date falls within available returns
+     */
+    public boolean validateDate(LocalDate date) {
+        return (end != null && !date.isBefore(end));
+    }
+
     public static Comparator<Stock> END_COMP() {
         return (a, b) -> a.getEnd().isBefore(b.getEnd()) ? -1 : 1;
     }

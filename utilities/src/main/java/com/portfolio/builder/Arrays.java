@@ -32,7 +32,7 @@ public class Arrays {
      * @param arrays column arrays to be converted to row arrays
      * @return mainArray object
      */
-    public static double[][] columnsToRows(double[][] mainArray, double[] arrays) {
+    public static double[][] columnsToRows(double[][] mainArray, double[]... arrays) {
         int index = 0;
         return columnsToRows(index, mainArray, arrays);
     }
@@ -52,8 +52,39 @@ public class Arrays {
         return true;
     }
 
+    public static void printArray(double[][] array) {
+        for (int i = 0; i < array.length; i++) {
+            double[] inside = array[i];
+            System.out.println("Outer Array " + i);
+            for (int j = 0; j < inside.length; j++) {
+                Double val = inside[j];
+                String message = val == null ?
+                        "      Val is null"
+                        :"       " + val;
+                System.out.println(message);
+            }
+        }
+    }
 
-
+    /**
+     * Method for copying one array to the other. This is a safe method, as it will not return a null. If the length
+     * of the copyTo array is less than copyFrom array, then it will simply copy until the copyTo array is full. If
+     * the copyFrom is shorter than the copyTo, then it will copy all available units.
+     * WARNING: DOES NOT COPY ARRAYS WITHIN THE MAIN ARRAY, SIMPLY COPIES OVER THEIR REFERENCE.
+     * @param copyTo The array to copy to
+     * @param copyFrom The array to be copied
+     * @return copied array
+     */
+    public static double[][] copy(double[][] copyTo, double[][] copyFrom) {
+        if (copyTo.length == 0 || copyFrom.length == 0) {
+            return copyTo;
+        }
+        int minlength = Math.min(copyTo.length, copyFrom.length);
+        for (int i = 0; i < minlength; i++) {
+            copyTo[i] = copyFrom[i]; // Make sure to copy the actual array, rather than provide a reference to it
+        }
+        return copyTo;
+    }
 
 
 
