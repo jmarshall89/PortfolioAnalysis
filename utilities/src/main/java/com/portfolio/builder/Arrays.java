@@ -14,11 +14,12 @@ public class Arrays {
      * @return mainArray, which is passed in
      */
     private static double[][] columnsToRows(int index, double[][] mainArray, double[]... arrays) {
-        if (index >= mainArray.length || isEmpty(arrays)) {
+        if (index >= mainArray.length || isEmpty(index, arrays)) {
             return mainArray;
         }
         double[] row = new double[arrays.length];
         for (int i = 0; i < arrays.length; i++) {
+            //bug..make sure to test length of these arrays when built
             row[i] = arrays[i][index];
         }
         mainArray[index] = row;
@@ -46,6 +47,15 @@ public class Arrays {
     public static boolean isEmpty(double[]... arrays) {
         for (double[] array : arrays) {
             if (array.length != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isEmpty(int index, double[]... arrays) {
+        for (double[] array : arrays) {
+            if (index < array.length) {
                 return false;
             }
         }

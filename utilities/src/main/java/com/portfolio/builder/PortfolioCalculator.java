@@ -23,6 +23,18 @@ public final class PortfolioCalculator {
         return count;
     }
 
+    public static int getMinSize(Map<String, Stock> stocks, LocalDate start, LocalDate end) {
+        int count = 0;
+        for (Stock stock : stocks.values()) {
+            List<Double> returns = stock.getReturns().getSubset(start, end);
+            int numReturns = returns.size();
+            if (count == 0 || count > numReturns) {
+                count = numReturns;
+            }
+        }
+        return count;
+    }
+
     public static Double calcReturn(Portfolio portfolio, LocalDate start, LocalDate end) {
         if (portfolio.getPortfolioEarliestDate().isBefore(start)) {
             return null; //todo filter out stocks that dont' fit this!,
@@ -39,7 +51,7 @@ public final class PortfolioCalculator {
     }
 
     public static void buildReturnMatrix(Portfolio portfolio, LocalDate start, LocalDate end, CorrelationResult result) {
-        double[][] returnArray = new double[portfolio.getMinSize()][];
+        double[][] returnArray = new double[portfolio.getMinSize(start, end)][];
         double[][] stocks = new double[portfolio.stocks.size()][];
         int index = 0;
         for(Stock stock : portfolio.stocks.values()) {

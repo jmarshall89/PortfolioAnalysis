@@ -76,7 +76,7 @@ public class Stock {
      * @return true if date falls within available returns
      */
     public boolean validateDate(LocalDate date) {
-        return (end != null && !date.isBefore(end));
+        return (start != null && !date.isBefore(start));
     }
 
     public static Comparator<Stock> END_COMP() {

@@ -39,6 +39,10 @@ public class Portfolio {
         return PortfolioCalculator.getMinSize(stocks);
     }
 
+    public int getMinSize(LocalDate start, LocalDate end) {
+        return PortfolioCalculator.getMinSize(stocks, start, end);
+    }
+
     private void rebalance() {
         double count = stockWeights.size();
         double equality = 1d / count;
@@ -65,9 +69,9 @@ public class Portfolio {
 
     public void setupTest() {
         CorrelationResult result = new CorrelationResult();
-        buildReturnMatrixLastYear(result);
-        result.calcCovariance();
-        result.getCorr();
+//        buildReturnMatrixLastYear(result);
+//        result.calcCovariance();
+//        result.getCorr();
         double totalRisk = PortfolioCalculator.calcRisk(this, result, getPortfolioEnd().minusYears(1), getPortfolioEnd());
     }
 
