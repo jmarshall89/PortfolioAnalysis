@@ -57,7 +57,7 @@ public final class PortfolioCalculator {
         for(Stock stock : portfolio.stocks.values()) {
             addToArray(stocks, index++, stock, start, end, portfolio);
         }
-        returnArray = Arrays.columnsToRows(returnArray, stocks);
+        returnArray = Arrays.transpose(returnArray, stocks);
         result.setReturnMatrix(returnArray);
         result.calcCovariance();
         Arrays.printArray(returnArray);
@@ -90,6 +90,15 @@ public final class PortfolioCalculator {
         return riskMap;
     }
 
+    /**
+     * Calculates risk of entire porfolio. Please not that it returns the risk in the time period of the underlying returns.
+     * A conversition of the square-root of the timeperoid is required to convert to another time peroid
+     * @param portfolio Portfolio testing risk
+     * @param result {@code CorrelationResult} object
+     * @param start Start date
+     * @param end end date
+     * @return double representing the risk in the time period of the underlying return data
+     */
     public static double calcRisk(Portfolio portfolio, CorrelationResult result, LocalDate start, LocalDate end) {
         buildReturnMatrix(portfolio, start, end, result);
         double[][] correlationMatrix = result.getCorr().getCorrelationMatrix().getData();

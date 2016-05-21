@@ -13,7 +13,7 @@ public class Arrays {
      * @param arrays column arrays to be converted to row arrays
      * @return mainArray, which is passed in
      */
-    private static double[][] columnsToRows(int index, double[][] mainArray, double[]... arrays) {
+    private static double[][] transpose(int index, double[][] mainArray, double[]... arrays) {
         if (index >= mainArray.length || isEmpty(index, arrays)) {
             return mainArray;
         }
@@ -23,19 +23,19 @@ public class Arrays {
             row[i] = arrays[i][index];
         }
         mainArray[index] = row;
-        return columnsToRows(++index, mainArray, arrays);
+        return transpose(++index, mainArray, arrays);
     }
 
     /**
-     * Overwrites the private columnsToRows method, as it's not necessary for the user to
+     * Overwrites the private transpose method, as it's not necessary for the user to
      * provide an index. That's simply to allow for recursion.
      * @param mainArray Array of row arrays, instantiated by the user
      * @param arrays column arrays to be converted to row arrays
      * @return mainArray object
      */
-    public static double[][] columnsToRows(double[][] mainArray, double[]... arrays) {
+    public static double[][] transpose(double[][] mainArray, double[]... arrays) {
         int index = 0;
-        return columnsToRows(index, mainArray, arrays);
+        return transpose(index, mainArray, arrays);
     }
 
     /**

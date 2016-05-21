@@ -32,6 +32,6 @@ public final class MathHelper {
                 .map(a -> Math.pow((a - mean), 2))
                 .reduce(Double::sum)
                 .get();
-        return Math.pow((sumSquaredDievations / list.size()), (1/2));
+        return Math.pow((sumSquaredDievations / list.size()), (1.00/2.00));
     }
 }
